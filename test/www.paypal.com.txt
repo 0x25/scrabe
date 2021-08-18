@@ -1,0 +1,4 @@
+cnservice@paypal.cn
+retourpaypal@telusinternational.com
+demande@paypal.fr
+test@abc.com

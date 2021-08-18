@@ -1,0 +1,8 @@
+support@invcontent.zendesk.com
+inv_editorial@investopedia.com
+privacy@investopedia.com
+optout@investopedia.com
+security@investopedia.com
+bugbounty@investopedia.com
+NevadaPrivacy@investopedia.com
+academysupport@investopedia.com
