@@ -5,7 +5,7 @@
 A tool to scrap emails from a list of URLs (line by line)
 Use multiprocess and recursive function to browse URLs
 
-````
+```
 usage: scrabe.py [-h] [-t THREADS] [-f FILE] [-o OUT]
 
 Scrap email from URLs
