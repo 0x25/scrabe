@@ -50,10 +50,8 @@ def scrape_urls(site, blacklist, max_depth = 1, cur_depth=0, urls=[],emails=[]):
   status_code = None
   base_url = url.scheme + '://' + url.netloc
   if url.path != '':
-    base_url = base_url + os.path.dirname(url.path) + '/'
-  #print(f"base url : {base_url}")
+    base_url = base_url + os.path.dirname(url.path) + '/' # do // sometime
   headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
-  #print(f"  IN: {site} {cur_depth}")
   try:
     r = requests.get(site,  headers=headers)
     status_code = r.status_code
@@ -61,11 +59,9 @@ def scrape_urls(site, blacklist, max_depth = 1, cur_depth=0, urls=[],emails=[]):
     print(f"  WARNING: [{pid}] request fail {site}")
     return {'urls': urls, 'emails': emails} # maybe ...
 
-  print(f"INFO: [{pid}] HTTP status code [{status_code}]")
+  print(f"  INFO: [{pid}] HTTP status code [{status_code}]")
   s = BeautifulSoup(r.text,"html.parser")
   mails = scrap_email(r.text)
-  #print(f"mails {mails}")
-  #print(r.text)
 
   for mail in mails:
     if mail not in emails:
@@ -75,13 +71,11 @@ def scrape_urls(site, blacklist, max_depth = 1, cur_depth=0, urls=[],emails=[]):
   print(f"  Info: pid[{pid}] depth[{cur_depth}] emails[{nb_emails}] {site}")
 
   if cur_depth >= max_depth: # exit: to mutch iterration
-    print(f"INFO: max depth {cur_depth} {max_depth}")
+    print(f"  INFO: pid[{pid}] max depth {cur_depth} {max_depth}")
     return {'urls': urls, 'emails': emails}
 
   for a in s.find_all("a", href=True):
-    print(f"      href {a['href']}")
     site = format_url(a['href'],base_url)
-    print(f"      site {site}")
     if site is not False:
       if site not in  urls and check_extension(site, blacklist):
         urls.append(site)
@@ -98,19 +92,13 @@ def format_url(url_tmp,url_valide):
 
   url_tmp = urlparse.urlparse(url_tmp)
   url_valide = urlparse.urlparse(url_valide)
-  #print(f"url_tmp {url_tmp}")
 
   if url_tmp.netloc == '' or url_tmp.netloc == url_valide.netloc:
     if url_tmp.path != '' and url_tmp.path.find('(') == -1 and url_tmp.scheme != 'mailto':
 
       url_join = urlparse.urljoin(url_valide_raw, url_temp_raw)
-      #print(f'url_join {url_join}')
       return url_join
-      #if url_tmp.path.startswith('/'):
-      #  return url_valide.scheme + '://' + url_valide.netloc + url_tmp.path
-      #else:
-      #  return url_valide.scheme + '://' + url_valide.netloc + '/' + url_tmp.path
-  
+
   return False
 
 
